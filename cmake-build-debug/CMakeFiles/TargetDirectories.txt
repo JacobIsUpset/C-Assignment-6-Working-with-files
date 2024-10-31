@@ -1,0 +1,3 @@
+C:/Users/burni/Documents/Repos/C-Assignment #6 working with files/cmake-build-debug/CMakeFiles/new_target.dir
+C:/Users/burni/Documents/Repos/C-Assignment #6 working with files/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/burni/Documents/Repos/C-Assignment #6 working with files/cmake-build-debug/CMakeFiles/rebuild_cache.dir
