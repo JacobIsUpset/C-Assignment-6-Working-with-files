@@ -1,1 +1,8 @@
-add_executable(new_target main.c)
+cmake_minimum_required(VERSION 3.29)
+project(untitled C)
+
+set(CMAKE_C_STANDARD 11)
+
+add_executable(untitled main.c
+        HelperFunctions.c
+        HelperFunctions.h)

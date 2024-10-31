@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/burni/Documents/Repos/C-Assignment #6 working with files
+# Install script for directory: C:/Users/burni/Documents/Repos/C-Assignment-5-Working-with-Structs-main/C-Assignment-5-Working-with-Structs-main/Assignment 5 - C_2024
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/Project")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/untitled")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/burni/Documents/Repos/C-Assignment #6 working with files/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/burni/Documents/Repos/C-Assignment-5-Working-with-Structs-main/C-Assignment-5-Working-with-Structs-main/Assignment 5 - C_2024/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
