@@ -33,6 +33,7 @@ int main() {
 
 
         if (menuValue == 1) {
+            openFile(&numOfStudents, students);
             // Display the details (ID, Name, Age, and Grade) of all the students currently in the system.
             printStudents(numOfStudents, students);
 
@@ -48,14 +49,22 @@ int main() {
                 continue;
             }
 
+            openFile(&numOfStudents, students);
+
             addNewStudent(numOfStudents, students);
 
             numOfStudents++;
 
+            writeToFile(numOfStudents, students);
+
         } else if (menuValue == 3){
+            openFile(&numOfStudents, students);
             // The user should be able to remove a student by entering their ID. If the ID does not exist, prompt the user to try again.
-            removeStudent(numOfStudents, students);
+            removeStudent(&numOfStudents, students);
+            writeToFile(numOfStudents, students);
+            numOfStudents--;
         } else if (menuValue == 4){   // DONE
+            openFile(&numOfStudents, students);
             gradeCalculations(numOfStudents,students);
 
         } else if (menuValue == 5){   // DONE
@@ -63,5 +72,5 @@ int main() {
             printf("goodbye!");
             break;
         }
-        }
     }
+}

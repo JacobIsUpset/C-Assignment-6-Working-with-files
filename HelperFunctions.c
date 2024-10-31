@@ -6,6 +6,8 @@
 #include <string.h>
 
 #include "helperFunctions.h"
+#define MAX_FILE_LENGTH 300
+
 int getStringLength(char *string) {
     // given a pointer to the beginning of a character array
     // that is guaranteed to be null terminated, return the size
@@ -118,9 +120,10 @@ int findLargestId(int numOfStudents, struct Student *student) {
     // if the id value of the student is larger than the highistId then replace it with the student Id
     for (int i = 0; i < numOfStudents ;i++) {
         if (student[i].id > highestId){
-           highestId = student[i].id;
+            highestId = student[i].id;
+        }
+        return highestId;
     }
-    return highestId;
 }
 
 int getAge(){
@@ -154,7 +157,7 @@ double getGrade(){
     return gradeInput;
 }
 
-void addNewStudent(int numOfStudents, struct Student * students) {
+void addNewStudent(int numOfStudents, struct Student * students){
 
     //ID INPUT
     // loop until you find a id
@@ -169,7 +172,7 @@ void addNewStudent(int numOfStudents, struct Student * students) {
     getStringFromUser(&nameInput[0], MAX_NAME_LENGTH);
     // at this point, we know that the nameInput array holds the name,
     // so all we need to do is to write it in the correct place of the array
-    strncpy(students[numOfStudents].name,MAX_NAME_LENGTH, nameInput);
+    strncpy(students[numOfStudents].name, nameInput, MAX_NAME_LENGTH);
 
     //AGE INPUT
     int ageInput = getAge();
@@ -215,22 +218,97 @@ void printStudents(int numOfStudents, struct Student students[]) {
     }
 }
 
-void removeStudent(int numOfStudents, struct Student students[]) {
+void removeStudent(int * numOfStudents, struct Student students[]){
     int idInput = 0;
 
-    while (1)
-    {
+    while (1) {
+        idInput = 0;
         printf("please enter the id of the student you would like to remove!");
-        scanInt("%d", &idInput);
-        for (int i = 0; i < numOfStudents; i++) {
+        getIntFromSTDIN();
+        for (int i = 0; i < *numOfStudents; i++) {
             if (students[i].id == idInput) {
-                students[i].id = 0;
-                strcpy(students[i].name, " ");
-                students[i].age = 0;
-                students[i].grade = 0;
+                if (i != (*numOfStudents - 1)) {
+                    students[i] = students[*numOfStudents - 1];
+                }
+                *numOfStudents--;
+                printf("student has been removed!\n");
                 break;
             }
         }
-        printf("ERROR!, no student is assigned to this id");
+        printf("Error!, please try again\n");
     }
+}
+
+int openFile(int * numOfStudents, struct Student students[]) {
+    //this function will overwrite the students array with what is in the file
+    FILE *file = fopen("StudentLogs.txt", "r");
+
+    if (file == NULL) {
+        printf("File could not be opened\n");
+        return 1;
+    }
+
+    char line[MAX_FILE_LENGTH];
+    //reseting numOfStudents
+    *numOfStudents = 0;
+
+    while (fgets(line, MAX_FILE_LENGTH, file) != NULL) {
+        // Parse the line using sscanf
+        if (sscanf(line, "%d,%[^,],%d,%lf", &students[*numOfStudents].id, students[*numOfStudents].name, &students[*numOfStudents].age, &students[*numOfStudents].grade) == 4) {
+            // Successfully parsed a student, increment numOfStudents
+            (*numOfStudents)++;
+        }
+    }
+
+
+    if (feof(file)) {
+        printf("End of File\n");
+    } else if (ferror(file)) {
+        printf("Error reading from file\n");
+    }
+
+    fclose(file);
+
+    return 0;
+}
+
+int writeToFile(int numOfStudents, struct Student students[]){
+    // i had to make a copy of open file in here as doing openfile() was not working for me!
+    FILE *file = fopen("StudentLogs.txt", "r");
+
+    if (file == NULL) {
+        printf("File could not be opened\n");
+        return 1;
+    }
+
+    char line[MAX_FILE_LENGTH];
+    //reseting numOfStudents
+    numOfStudents = 0;
+
+    while (fgets(line, MAX_FILE_LENGTH, file) != NULL) {
+        // Parse the line using sscanf
+        if (sscanf(line, "%d,%[^,],%d,%lf", &students[numOfStudents].id, students[numOfStudents].name, &students[numOfStudents].age, &students[numOfStudents].grade) == 4) {
+            // Successfully parsed a student, increment numOfStudents
+            (numOfStudents)++;
+        }
+    }
+
+
+    if (feof(file)) {
+        printf("End of File\n");
+    } else if (ferror(file)) {
+        printf("Error reading from file\n");
+    }
+
+    //iterate through teh array and print it into the file
+    for (int i = 0; i < numOfStudents; i++) {
+        fprintf(file, "%d,", students[i].id);
+        fprintf(file, "%s,", students[i].name);
+        fprintf(file, "%d,", students[i].age);
+        fprintf(file, "%lf", students[i].grade);
+    }
+
+    fclose(file);
+
+    return 0;
 }
